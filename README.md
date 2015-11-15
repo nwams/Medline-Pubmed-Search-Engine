@@ -24,6 +24,7 @@ mapped with CPT and ICD codes
 	6.	I created a folder called “Code” to store the cpt and ics csv files. Note that for ICD code, DX means diagnosis while SG means procedure. ICD codes in the CSV file start on row 915.  
 
 	7.	[MH_items](https://mbr.nlm.nih.gov/Download/) here and [description](https://mbr.nlm.nih.gov/Reference/MEDLINE_Baseline_Repository_Detail.pdf) here 
+	8.	`MH_items <https://mbr.nlm.nih.gov/Download/>`_. here and 'description <https://mbr.nlm.nih.gov/Reference/MEDLINE_Baseline_Repository_Detail.pdf>' here_.
 
 ### Must Do This Manually Each Time Before Use
 To start the MetaMap servers:
