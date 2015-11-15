@@ -1,5 +1,9 @@
 # Medline-Pubmed-Search-Engine
-mapped with CPT and ICD codes
+Creation of a novel medical search engine/algorithm: e.g. a search engine that could search pubmed based on a combination of CPT code and ICD-10 code (or ICD-9 code) We can come up with a de-identified dataset. 
+
+Example capabilities:
+* display 3 most recent relevant articles
+* display 3 most relevant review articles
 
 ### Only required to do this one-time!
 1. Download metamap 2012 https://metamap.nlm.nih.gov/MainDownload.shtml. It’s a large file and will take a while 
