@@ -1,5 +1,25 @@
 from pymetamap import MetaMap
 import csv
+# import the Flask class from the flask module
+from flask import Flask, render_template, request, session, send_from_directory, g, redirect, url_for, abort, flash
+import os
+
+# create the application object
+app = Flask(__name__)
+
+#when the user comes to the main page, send them to the home template
+@app.route('/')
+def main():
+    return render_template('home.html')
+
+# start the development server using the run method
+if __name__ == "__main__":
+    app.debug = True
+    #app.run(debug=True)
+    #app.run(debug=True, port=5001)
+    #app.run(host='0.0.0.0')   #turn this on later when you go to another server
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
 
 def getPubMedArticleID():
     """
@@ -55,7 +75,7 @@ def setupStuff():
     setup MetaMap and search UMLS for user desired topic
     :return: The preferred name for the UMLS concept identified in the text. And the number of different preferred names output
     """
-    mm = MetaMap.get_instance('/Users/yiqingluo/IF5400/public_mm/bin/metamap12')
+    mm = MetaMap.get_instance('/Users/nwams/Documents/MetaMap/public_mm/bin/metamap12')
 
     searchTopic = raw_input('What topic are you searching for? ')
     print "the user is searching for:", searchTopic
