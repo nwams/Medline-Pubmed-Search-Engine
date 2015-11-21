@@ -28,15 +28,27 @@ def searchPubMedArticleByConcept(conceptArray):
             print "No keyword matches [" + concept + "] in database."
     return dict
 
-def getCPTandICD():
+def getCPTcodes():
     """
-    get CPT and ICD codes, put in dictionary
+    get CPT codes, put in dictionary
     :return: the dictionary of codes
     """
-    with open('../codes/CPTandICD.csv', 'rU') as csvfile:
+    with open('../codes/CPT.csv', 'rU') as csvfile:
         reader = csv.reader(csvfile)
         codeDict = {rows[0]:rows[1] for rows in reader}
         return codeDict
+
+def getICDcodes():
+    """
+    get ICD codes, put in dictionary
+    :return: the dictionary of codes
+    """
+    with open('../codes/ICD.csv', 'rU') as csvfile:
+        reader = csv.reader(csvfile)
+        codeDict = {rows[0]:rows[1] for rows in reader}
+        return codeDict
+
+
 
 def setupStuff():
     """
@@ -61,7 +73,7 @@ def setupStuff():
 
 
 # return a dictionary with key as CPT or ICD code and value as text description
-def searchThroughCodes(codeDict, searchTerms, numOfSearches):
+def searchThroughCodes(searchTerms, numOfSearches):
     """
     search through the list of IPT/CPT codes.
     if the users topic matches, via UMLS terms, assign it to a dictionary
@@ -70,22 +82,32 @@ def searchThroughCodes(codeDict, searchTerms, numOfSearches):
     :param numOfSearches: number of names in Concept the array
     :return: matchingTopicsDict
     """
-    matchingTopicsDict ={}
+    matchingCPTDict = {}
+    matchingICDDict = {}
     for i in range(numOfSearches):
-        for k,v in codeDict.iteritems():
+        for k,v in cptCodeDict.iteritems():
             if searchTerms[i].lower() in v.lower(): # case insensitive search required
-                matchingTopicsDict[k] = v
-                # print v
-    # print matchingTopicsDict
-    # print len(matchingTopicsDict)
-    return matchingTopicsDict
+                matchingCPTDict[k] = v
 
-codeDict = getCPTandICD()
+    for i in range(numOfSearches):
+        for k,v in icdCodeDict.iteritems():
+            if searchTerms[i].lower() in v.lower(): # case insensitive search required
+                matchingICDDict[k] = v
 
-pubmedDict = getPubMedArticleID()
+    print "================== CPT codes ================"
+    print matchingCPTDict
+    print "================== ICD codes ================"
+    print matchingICDDict
+    return matchingCPTDict, matchingICDDict
+
+cptCodeDict = getCPTcodes()
+
+icdCodeDict = getICDcodes()
+
+# pubmedDict = getPubMedArticleID()
 
 conceptArray, lengthOfConceptArray = setupStuff()
 
-conceptWithPubmedArticle = searchPubMedArticleByConcept(conceptArray)
+# conceptWithPubmedArticle = searchPubMedArticleByConcept(conceptArray)
 
-# searchThroughCodes(codeDict, conceptArray, lengthOfConceptArray)
+searchThroughCodes(conceptArray, lengthOfConceptArray)
