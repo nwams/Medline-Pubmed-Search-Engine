@@ -1,22 +1,61 @@
 from pymetamap import MetaMap
 import csv
 
-def getCPTandICD():
+def getPubMedArticleID():
     """
-    get CPT and ICD codes, put in dictionary
+
+    :return: a dictionary key: term, value: set of pubmedID(s)
+    """
+    with open('../pubmed_data/MH_items.csv','rU') as csvfile:
+        reader = csv.reader(csvfile)
+        dict = {}
+        for row in reader:
+            term = row[0].lower() # case insensitive
+            pubmedID = row[3]
+            if dict.has_key(term) == False:
+                dict[term] = set()
+            dict[term].add(pubmedID)
+        return dict
+
+def searchPubMedArticleByConcept(conceptArray):
+    dict = {}
+    for concept in conceptArray:
+        concept = concept.strip().lower()
+        if pubmedDict.has_key(concept) == True:
+            dict[concept] = pubmedDict[concept]
+            print "Found " + str(len(pubmedDict[concept])) + " articles on PubMed for [" + concept + "]."
+        else:
+            print "No keyword matches [" + concept + "] in database."
+    return dict
+
+def getCPTcodes():
+    """
+    get CPT codes, put in dictionary
     :return: the dictionary of codes
     """
-    with open('../codes/CPTandICD.csv', 'rU') as csvfile:
+    with open('../codes/CPT.csv', 'rU') as csvfile:
         reader = csv.reader(csvfile)
         codeDict = {rows[0]:rows[1] for rows in reader}
         return codeDict
+
+def getICDcodes():
+    """
+    get ICD codes, put in dictionary
+    :return: the dictionary of codes
+    """
+    with open('../codes/ICD.csv', 'rU') as csvfile:
+        reader = csv.reader(csvfile)
+        codeDict = {rows[0]:rows[1] for rows in reader}
+        return codeDict
+
+
 
 def setupStuff():
     """
     setup MetaMap and search UMLS for user desired topic
     :return: The preferred name for the UMLS concept identified in the text. And the number of different preferred names output
     """
-    mm = MetaMap.get_instance('/Users/nwams/Documents/MetaMap/public_mm/bin/metamap12')
+    mm = MetaMap.get_instance('/Users/yiqingluo/IF5400/public_mm/bin/metamap12')
 
     searchTopic = raw_input('What topic are you searching for? ')
     print "the user is searching for:", searchTopic
@@ -33,7 +72,8 @@ def setupStuff():
     return conceptArray, len(conceptArray)
 
 
-def searchThroughCodes(codeDict, searchTerms, numOfSearches):
+# return a dictionary with key as CPT or ICD code and value as text description
+def searchThroughCodes(searchTerms, numOfSearches):
     """
     search through the list of IPT/CPT codes.
     if the users topic matches, via UMLS terms, assign it to a dictionary
@@ -42,16 +82,32 @@ def searchThroughCodes(codeDict, searchTerms, numOfSearches):
     :param numOfSearches: number of names in Concept the array
     :return: matchingTopicsDict
     """
-    matchingTopicsDict ={}
+    matchingCPTDict = {}
+    matchingICDDict = {}
     for i in range(numOfSearches):
-        for k,v in codeDict.iteritems():
+        for k,v in cptCodeDict.iteritems():
             if searchTerms[i].lower() in v.lower(): # case insensitive search required
-                matchingTopicsDict[k] = v
-    print matchingTopicsDict
-    return matchingTopicsDict
+                matchingCPTDict[k] = v
 
-codeDict = getCPTandICD()
+    for i in range(numOfSearches):
+        for k,v in icdCodeDict.iteritems():
+            if searchTerms[i].lower() in v.lower(): # case insensitive search required
+                matchingICDDict[k] = v
+
+    print "================== CPT codes ================"
+    print matchingCPTDict
+    print "================== ICD codes ================"
+    print matchingICDDict
+    return matchingCPTDict, matchingICDDict
+
+cptCodeDict = getCPTcodes()
+
+icdCodeDict = getICDcodes()
+
+# pubmedDict = getPubMedArticleID()
 
 conceptArray, lengthOfConceptArray = setupStuff()
 
-searchThroughCodes(codeDict, conceptArray, lengthOfConceptArray)
+# conceptWithPubmedArticle = searchPubMedArticleByConcept(conceptArray)
+
+searchThroughCodes(conceptArray, lengthOfConceptArray)
