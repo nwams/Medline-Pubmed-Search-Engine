@@ -4,22 +4,24 @@ import csv
 from flask import Flask, render_template, request, session, send_from_directory, g, redirect, url_for, abort, flash
 import os
 
-# create the application object
-app = Flask(__name__)
+# # create the application object
+# app = Flask(__name__)
+#
+# #when the user comes to the main page, send them to the home template
+# @app.route('/')
+# def main():
+#     #return "hey boo"
+#     return render_template('home.html')
+#
+# # start the development server using the run method
+# if __name__ == "__main__":
+#     app.debug = True
+#     #app.run(debug=True)
+#     #app.run(debug=True, port=5001)
+#     #app.run(host='0.0.0.0')   #turn this on later when you go to another server
+#     port = int(os.environ.get('PORT', 4000))
+#     app.run(host='0.0.0.0', port=port)
 
-#when the user comes to the main page, send them to the home template
-@app.route('/')
-def main():
-    return render_template('home.html')
-
-# start the development server using the run method
-if __name__ == "__main__":
-    app.debug = True
-    #app.run(debug=True)
-    #app.run(debug=True, port=5001)
-    #app.run(host='0.0.0.0')   #turn this on later when you go to another server
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
 
 def getPubMedArticleID():
     """
@@ -121,13 +123,8 @@ def searchThroughCodes(searchTerms, numOfSearches):
     return matchingCPTDict, matchingICDDict
 
 cptCodeDict = getCPTcodes()
-
 icdCodeDict = getICDcodes()
-
 # pubmedDict = getPubMedArticleID()
-
 conceptArray, lengthOfConceptArray = setupStuff()
-
 # conceptWithPubmedArticle = searchPubMedArticleByConcept(conceptArray)
-
 searchThroughCodes(conceptArray, lengthOfConceptArray)
