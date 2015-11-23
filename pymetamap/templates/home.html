@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <link rel=stylesheet type=text/css
+          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-amber.min.css">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
+    <link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en"
+          rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+</head>
+
+<script>
+    function search() {
+        search_param = document.getElementById("userTopic").value;
+
+        $.ajax('/search', {
+            type: "GET",
+            dataType: "json",
+            data: {
+                search: search_param
+            },
+            asnyc: false,
+            success: function (results) {
+                // alert(results["procedures"]["t76826"]);
+
+                // Get the table by its id
+                var table = document.getElementById("procedures_symptoms"); // this should be inside the first loop
+
+                // Print Table Header
+                var tableHead = document.createElement('thead')
+                var tr = document.createElement('TR');
+                var th = document.createElement('TH');
+                th.appendChild(document.createTextNode("Select codes below to see related articles"));
+                tr.appendChild(th)
+                tableHead.appendChild(tr);
+                table.appendChild(tableHead);
+
+                // list Symptom (ICD) codes in table first
+                var tableBody = document.createElement('tbody')
+
+                for (var key in results["symptoms"]) {
+                    var tr = document.createElement('TR');
+                    var attrName = "ICD " + key.replace("t", "") + ": ";
+                    var attrValue = results["symptoms"][key];
+                    var td = document.createElement('TD')
+                    td.appendChild(document.createTextNode(attrName + attrValue))
+                    tr.appendChild(td)
+                    tableBody.appendChild(tr)
+                }
+
+                // list Procedure (CPT) codes in table after ICD codes
+                for (var key in results["procedures"]) {
+                    var tr = document.createElement('TR');
+                    var attrName = "CPT " + key.replace("t", "") + ": ";
+                    var attrValue = results["procedures"][key];
+                    var td = document.createElement('TD')
+                    td.appendChild(document.createTextNode(attrName + attrValue))
+                    tr.appendChild(td)
+                    tableBody.appendChild(tr)
+                }
+
+                table.appendChild(tableBody);
+                //alert(JSON.stringify(results["symptoms"]["t66934"]));
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    }
+
+</script>
+
+
+<body class="mdl-demo mdl-color--grey-200 mdl-color-text--grey-400 mdl-base">
+<div class="mdl-layout__container has-scrolling-header">
+    <div class="demo-layout mdl-layout mdl-js-layout is-upgraded">
+        <header class="android-header mdl-layout__header mdl-layout__header--waterfall">
+            <div class=" mdl-layout__header-row">
+                <span class="android-title mdl-layout-title">
+              Medical Search Engine &nbsp; &nbsp;&nbsp; &nbsp;
+                </span>
+                <!-- Simple Textfield -->
+                <form action="#">
+                    <div class="mdl-textfield mdl-js-textfield">
+                        <input class="mdl-textfield__input" type="text" id="userTopic"/>
+                        <label class="mdl-textfield__label mdl-color-text--grey" for="userTopic">What topic are you
+                            searching for?</label>
+                    </div>
+                    <!-- Colored mini yellow amber search button -->
+                    <button onclick="search()"
+                            class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+                        <i class="material-icons">search</i>
+                    </button>
+                </form>
+            </div>
+        </header>
+
+    <main class="mdl-layout__content">
+
+        <div class="mdl-layout__tab-panel is-active" id="overview">
+
+            <div class="android-card-container mdl-grid">
+                <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone mdl-card mdl-shadow--3dp">
+                    <div class="mdl-card__supporting-text">
+
+                        <!-- add first table here -->
+                        <table id="procedures_symptoms"
+                               class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone mdl-card mdl-shadow--3dp">
+                    <div class="mdl-card__supporting-text">
+
+                        <!-- add content here -->
+                        <table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+                            <thead>
+                            <tr>
+                                <th class="mdl-data-table__cell--non-numeric">Material</th>
+                                <th>Quantity</th>
+                                <th>Unit price</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Acrylic (Transparent)</td>
+                                <td>25</td>
+                                <td>$2.90</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Plywood (Birch)</td>
+                                <td>50</td>
+                                <td>$1.25</td>
+                            </tr>
+                            <tr>
+                                <td class="mdl-data-table__cell--non-numeric">Laminate (Gold on Blue)</td>
+                                <td>10</td>
+                                <td>$2.35</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </main>
+        </div>
+    </div>
+</body>
+
+
+</html>
