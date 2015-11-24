@@ -297,3 +297,20 @@ input[type="text"] {
   text-align:left;
   width: 40px;
 }
+
+.result{
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#bgpic {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+	/* Preserve aspet ratio */
+    width: 100%;
+    height: auto;
+
+}
