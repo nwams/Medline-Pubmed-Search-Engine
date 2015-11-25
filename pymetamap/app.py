@@ -67,8 +67,9 @@ def searchMetaMap(search):
     setup MetaMap and search UMLS for user desired topic
     :return: The preferred name for the UMLS concept identified in the text. And the number of different preferred names output
     """
-    mm = MetaMap.get_instance('/Users/nwams/Documents/MetaMap/public_mm/bin/metamap12')
-
+    # mm = MetaMap.get_instance('/Users/nwams/Documents/MetaMap/public_mm/bin/metamap12')
+    mm = MetaMap.get_instance('/Users/yiqingluo/IF5400/public_mm/bin/metamap12')
+    
     #searchTopic = raw_input('What topic are you searching for? ')
     searchTopic = [search]
 
