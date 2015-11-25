@@ -88,6 +88,7 @@ input[type="text"] {
     flex-grow: 1;
     padding: 0;
     color: inherit;
+    display: fixed;
     width: calc(100% - 80px);
 }
 
