@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.5/angular.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 </head>
 
 <script>
@@ -51,6 +52,7 @@
                     td.className = "icd-code"
                     td.onclick = function() {
                         getArticles(attrValue.split(' ').join('+'));
+                        <!--getAbstract(8893567);-->
                     };
                     td.appendChild(document.createTextNode(attrName + attrValue))
                     tr.appendChild(td)
@@ -79,7 +81,41 @@
     }
 
 </script>
+<script>
+  function getAbstract(pmid) {
+        $.ajax({
+          url:"https://www.kimonolabs.com/api/3qouqv32?apikey=OMGNB44gfcH3XD7u1zHUwEjB8nz3mlqP&kimpath1=pubmed&kimpath2=" + pmid,
+          crossDomain: true,
+          dataType: "jsonp",
+          success: function (response) {
+            //Do something with the response
+            var table = document.getElementById("article-details");
 
+            var tableBody = document.createElement('tbody')
+
+            for (var key in response["results"]["collection1"]) {
+                var h4 = document.createElement('H4');
+                var p = document.createElement('P');
+                var title = response["results"]["collection1"]["title"];
+                var abstract = response["results"]["collection1"]["abstracttext"];
+                var url = response["results"]["collection1"]["url"];
+                p.appendChild(document.createTextNode(abstract));
+                p.className = "abstract"
+                h4.appendChild(document.createTextNode(title));
+                h4.className = "title"
+                h4.href = url;
+                p.appendChild(h4);
+                tableBody.appendChild(p);
+            }
+            oldBody = table.getElementsByTagName("tbody")[0];
+            table.replaceChild(tableBody, oldBody);
+          },
+          error: function (xhr, status) {
+            //handle errors
+          }
+        });
+  }
+</script>
 <script>
     function getArticles(term) {
         $.ajax({
@@ -104,11 +140,20 @@
 
                 for (var key in response["results"]["collection1"]) {
                     var tr = document.createElement('TR');
+                    var p = document.createElement('P');
+                    var a = document.createElement('A');
                     var title = response["results"]["collection1"][key]["Title"]["text"];
-                    var td = document.createElement('TD')
-                    td.className = "result"
-                    td.appendChild(document.createTextNode(title))
-                    tr.appendChild(td)
+                    var url = response["results"]["collection1"][key]["Title"]["href"];
+                    var h4 = document.createElement('H4')
+                    h4.className = "result"
+                    p.className = "link"
+                    p.appendChild(document.createTextNode(url)
+                    a.href = url;
+                    a.appendChild(document.createTextNode("VIEW DETAILS"))
+                    h4.appendChild(document.createTextNode(title))
+                    p.appendChild(a)
+                    h4.appendChild(p)
+                    tr.appendChild(h4)
                     tableBody.appendChild(tr)
                 }
                 oldBody = table.getElementsByTagName("tbody")[0];
