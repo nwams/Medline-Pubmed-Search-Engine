@@ -28,7 +28,7 @@
             asnyc: false,
             success: function (results) {
                 // alert(results["procedures"]["t76826"]);
-
+                console.log(results);
                 // Get the table by its id
                 var table = document.getElementById("procedures_symptoms"); // this should be inside the first loop
 
@@ -50,7 +50,7 @@
                     var attrValue = results["symptoms"][key];
                     var td = document.createElement('TD')
                     td.className = "icd-code"
-                    td.onclick = function() {
+                     td.onclick = function() {
                         getArticles(attrValue.split(' ').join('+'));
                         <!--getAbstract(8893567);-->
                     };
@@ -147,7 +147,7 @@
                     var h4 = document.createElement('H4')
                     h4.className = "result"
                     p.className = "link"
-                    p.appendChild(document.createTextNode(url)
+                    p.appendChild(document.createTextNode(url));
                     a.href = url;
                     a.appendChild(document.createTextNode("VIEW DETAILS"))
                     h4.appendChild(document.createTextNode(title))
