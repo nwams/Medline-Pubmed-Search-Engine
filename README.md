@@ -1,10 +1,10 @@
 # Medline-Pubmed-Search-Engine
-Creation of a novel medical search engine/algorithm: e.g. a search engine that could search pubmed based on a combination of CPT code and ICD-10 code (or ICD-9 code) We can come up with a de-identified dataset. 
+Creation of a novel medical search engine/algorithm: e.g. a search engine that could search pubmed based on a combination of CPT code and ICD-10 code (or ICD-9 code).
 
-Example capabilities:
-* display 3 most recent relevant articles
-* display 3 most relevant review articles
+Capabilities:
+* Display most relevant articles
 
+## Install & Setup Instructions
 ### Only required to do this one-time!
 1. Download metamap 2012 https://metamap.nlm.nih.gov/MainDownload.shtml. It’s a large file and will take a while 
 	  * Note: Specifically must be version 2012, because it’s what was tested and created by Anthony Rios, the author of Python Metamap wrapper 
