@@ -26,7 +26,6 @@ Example capabilities:
 5. I created an app.py file in the pymetamap folder 
 
 6. I created a folder called “Code” to store the cpt and ics csv files. Note that for ICD code, DX means diagnosis while SG means procedure. ICD codes in the CSV file start on row 915.  
-7. [MH_items](https://mbr.nlm.nih.gov/Download/) here and [description](https://mbr.nlm.nih.gov/Reference/MEDLINE_Baseline_Repository_Detail.pdf) here.
 
 ### Must Do This Manually Each Time Before Use
 To start the MetaMap servers:
@@ -34,3 +33,7 @@ To start the MetaMap servers:
 1. In command line, cd into the public_mm folder 
 2. enter the following ./bin/skrmedpostctl start 
 3. enter the following command ./bin/wsdserverctl start 
+4. Start the app.py file (located in the pymetamap folder) by typing the command python app.py to launch the search engine on your local browser
+
+### Screenshots of the ICD/CPT to Pubmed Search Engine
+![alt tag](https://github.com/nwams/Medline-Pubmed-Search-Engine/blob/master/Screenshot.png)
