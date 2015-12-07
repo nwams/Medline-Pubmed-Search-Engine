@@ -300,9 +300,6 @@ input[type="text"] {
 }
 
 .result{
-    width: 250px;
-    white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
 }
 #bgpic {
@@ -314,4 +311,12 @@ input[type="text"] {
     width: 100%;
     height: auto;
 
+}
+
+p {
+    display: block;
+    -webkit-margin-before: 1em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
 }

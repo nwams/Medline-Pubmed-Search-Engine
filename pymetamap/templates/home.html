@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel=stylesheet type=text/css
-          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.deep_purple-amber.min.css">
+          href="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.grey-blue.min.css">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='style.css') }}">
     <link rel=stylesheet type=text/css href="{{ url_for('static', filename='home.css') }}">
     <script src="https://storage.googleapis.com/code.getmdl.io/1.0.5/material.min.js"></script>
@@ -42,22 +42,22 @@
 //                table.appendChild(tableHead);
 
                 // list Symptom (ICD) codes in table first
-                var tableBody = document.createElement('tbody')
+                var tableBody = document.createElement('tbody');
 
                 for (var key in results["symptoms"]) {
                     var tr = document.createElement('TR');
                     var attrName = "ICD " + key.replace("t", "") + ": ";
                     var attrValue = results["symptoms"][key];
-                    var td = document.createElement('TD')
-                    td.className = "icd-code"
+                    var td = document.createElement('TD');
+                    td.className = "icd-code";
                      td.onclick = function() {
                         getArticles(attrValue.split(' ').join('+'));
                         <!--getAbstract(8893567);-->
                         <!--getAbstract(26637172);-->
                     };
-                    td.appendChild(document.createTextNode(attrName + attrValue))
-                    tr.appendChild(td)
-                    tableBody.appendChild(tr)
+                    td.appendChild(document.createTextNode(attrName + attrValue));
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
                 }
 
                 // list Procedure (CPT) codes in table after ICD codes
@@ -65,10 +65,10 @@
                     var tr = document.createElement('TR');
                     var attrName = "CPT " + key.replace("t", "") + ": ";
                     var attrValue = results["procedures"][key];
-                    var td = document.createElement('TD')
-                    td.appendChild(document.createTextNode(attrName + attrValue))
-                    tr.appendChild(td)
-                    tableBody.appendChild(tr)
+                    var td = document.createElement('TD');
+                    td.appendChild(document.createTextNode(attrName + attrValue));
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
                 }
 
                 table.appendChild(tableBody);
@@ -93,7 +93,7 @@
             //Do something with the response
             var table = document.getElementById("article-details");
 
-            var tableBody = document.createElement('tbody')
+            var tableBody = document.createElement('tbody');
 
             for (var key in response["results"]["collection1"]) {
                 var h3 = document.createElement('H3');
@@ -104,9 +104,9 @@
                 var url = response["url"];
                 a.href = url;
                 p.appendChild(document.createTextNode(abstract));
-                p.className = "abstract"
+                p.className = "abstract";
                 a.appendChild(document.createTextNode(title));
-                a.className = "title"
+                a.className = "title";
 
                 h3.appendChild(a);
                 tableBody.appendChild(a);
@@ -133,7 +133,7 @@
             success: function (response) {
                 // Get the table by its id
                 var table = document.getElementById("search-results"); // this should be inside the first loop
-                <!--var table = document.getElementById("article-details"); // this should be inside the first loop-->
+{#                <var table = document.getElementById("article-details"); // this should be inside the first loop-->#}
                 // Print Table Header
 //                var tableHead = document.createElement('thead')
 //                var tr = document.createElement('TR');
@@ -147,26 +147,27 @@
                 var tableBody = document.createElement('tbody')
 
                 for (var key in response["results"]["collection1"]) {
-                    <!--var tr = document.createElement('TR');-->
-                    <!--var p = document.createElement('P');-->
-                    var a = document.createElement('A');
                     var title = response["results"]["collection1"][key]["Title"]["text"];
                     var url = response["results"]["collection1"][key]["Title"]["href"];
                     var pmid = response["results"]["collection1"][key]["PMID"];
+
                     <!--getAbstract(pmid);-->
-                    var h4 = document.createElement('H4')
-                    h4.className = "result"
-                    <!--p.className = "link"-->
-                    <!--p.appendChild(document.createTextNode(url));-->
+                    var p = document.createElement('P');
+                    var a = document.createElement('A');
+
+                    p.className = "result";
+                    p.appendChild(document.createTextNode(title));
+                    a.appendChild(document.createTextNode(url));
+
+                    var br = document.createElement("br");
+
                     a.href = url;
-                    a.appendChild(document.createTextNode("VIEW DETAILS"))
-                    h4.appendChild(document.createTextNode(title))
-                    <!--p.appendChild(a)-->
-                    <!--h4.appendChild(p)-->
-                    <!--tr.appendChild(h4)-->
-                    <!--tr.appendChild(a)-->
-                    tableBody.appendChild(h4)
-                    tableBody.appendChild(a)
+                    a.target = '_blank';
+
+                    tableBody.appendChild(p);
+
+                    tableBody.appendChild(a);
+
                 }
                 oldBody = table.getElementsByTagName("tbody")[0];
                 table.replaceChild(tableBody, oldBody);
@@ -181,7 +182,7 @@
 </script>
 
 
-<body class="mdl-demo mdl-color--red-A100 mdl-color-text--grey-400 mdl-base">
+<body class="mdl-demo mdl-color--red-A100 mdl-color-text--grey-600 mdl-base">
 <div class="mdl-layout__container has-scrolling-header">
     <!--<div><img src=https://photos-3.dropbox.com/t/2/AAAGFhm0I_BKQADzWo-jFrB4zDfmajuEBJoJmfpkCopcWw/12/285457126/png/32x32/3/1448395200/0/2/low-poly-texture-14.png/EOaC-JICGIQBIAIoAg/td5-MbCvCsE5ZSauJAfoRpaXx-Wpn04Xbr-c2jzDPGQ?size_mode=3&size=1024x768-->
               <!--id="bgpic" alt=""></div>-->
@@ -189,7 +190,7 @@
         <header class="android-header mdl-layout__header mdl-layout__header--waterfall">
             <div class=" mdl-layout__header-row">
                 <span class="android-title mdl-layout-title">
-              Medical Search Engine &nbsp; &nbsp;&nbsp; &nbsp;
+                    <h3>Medical Search Engine &nbsp; &nbsp;&nbsp; &nbsp;</h3>
                 </span>
                 <!-- Simple Textfield -->
                 <form action="#">
@@ -200,7 +201,7 @@
                     </div>
                     <!-- Colored mini yellow amber search button -->
                     <button onclick="search()"
-                            class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+                            class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored mdl-color--amber">
                         <i class="material-icons">search</i>
                     </button>
                 </form>
@@ -219,7 +220,7 @@
                         <table id="procedures_symptoms"
                                class=" mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
-                                Select a code below to see related articles
+                                <h5>Select a code below to see related articles</h5>
                             </thead>
                             <tbody>
                             </tbody>
@@ -232,10 +233,9 @@
                     <div class="mdl-card__supporting-text">
 
                         <!--<table id="article-details"-->
-                        <table id="search-results"
-                               class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                        <table id="search-results">
                             <thead>
-                                Medline Pubmed Articles
+                                <h5>Medline Pubmed Articles</h5>
                             </thead>
                             <tbody>
                             </tbody>
