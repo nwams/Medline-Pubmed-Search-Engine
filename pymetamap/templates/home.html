@@ -27,19 +27,9 @@
             },
             asnyc: false,
             success: function (results) {
-                // alert(results["procedures"]["t76826"]);
                 console.log(results);
                 // Get the table by its id
                 var table = document.getElementById("procedures_symptoms"); // this should be inside the first loop
-
-                // Print Table Header
-//                var tableHead = document.createElement('thead')
-//                var tr = document.createElement('TR');
-//                var th = document.createElement('TH');
-//                th.appendChild(document.createTextNode("Select a code below to see related articles"));
-//                tr.appendChild(th)
-//                tableHead.appendChild(tr);
-//                table.appendChild(tableHead);
 
                 // list Symptom (ICD) codes in table first
                 var tableBody = document.createElement('tbody');
@@ -70,9 +60,7 @@
                     tr.appendChild(td);
                     tableBody.appendChild(tr);
                 }
-
                 table.appendChild(tableBody);
-                //alert(JSON.stringify(results["symptoms"]["t66934"]));
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 alert(xhr.status);
@@ -80,8 +68,52 @@
             }
         });
     }
-
 </script>
+
+<script>
+    function getArticles(term) {
+        $.ajax({
+            url: "http://www.kimonolabs.com/api/ondemand/8wb2mikm?apikey=YPf4MFJ9fAeMAG9C6mqhzAuoWTmKbb4u&kimpath1=pubmed&term=" + term,
+            crossDomain: true,
+            dataType: "jsonp",
+            success: function (response) {
+                // Get the table by its id
+                var table = document.getElementById("search-results"); // this should be inside the first loop
+
+                // list Symptom (ICD) codes in table first
+                var tableBody = document.createElement('tbody')
+
+                for (var key in response["results"]["collection1"]) {
+                    var title = response["results"]["collection1"][key]["Title"]["text"];
+                    var url = response["results"]["collection1"][key]["Title"]["href"];
+                    var pmid = response["results"]["collection1"][key]["PMID"];
+
+                    <!--getAbstract(pmid);-->
+                    var p = document.createElement('P');
+                    var a = document.createElement('A');
+                    var abstr = document.createElement('P');
+
+                    p.className = "result";
+                    p.appendChild(document.createTextNode(title));
+                    a.appendChild(document.createTextNode(url));
+                    a.href = url;
+                    a.target = '_blank';
+
+                    tableBody.appendChild(p);
+                    tableBody.appendChild(a);
+                    tableBody.appendChild(abstr);
+
+                }
+                oldBody = table.getElementsByTagName("tbody")[0];
+                table.replaceChild(tableBody, oldBody);
+            },
+            error: function (xhr, status) {
+                //handle errors
+            }
+        });
+    }
+</script>
+
 <script>
   function getAbstract(pmid) {
         $.ajax({
@@ -112,80 +144,19 @@
                 tableBody.appendChild(a);
                 tableBody.appendChild(p);
             }
-            <!--oldBody = table.getElementsByTagName("tbody")[0];-->
-            <!--table.replaceChild(tableBody, oldBody);-->
             table.appendChild(tableBody);
           },
           error: function (xhr, status) {
             //handle errors
-                     console.log(xhr);
+            console.log(xhr);
             console.log(status);
           } 
         });
   }
 </script>
-<script>
-    function getArticles(term) {
-        $.ajax({
-            url: "http://www.kimonolabs.com/api/ondemand/8wb2mikm?apikey=YPf4MFJ9fAeMAG9C6mqhzAuoWTmKbb4u&kimpath1=pubmed&term=" + term,
-            crossDomain: true,
-            dataType: "jsonp",
-            success: function (response) {
-                // Get the table by its id
-                var table = document.getElementById("search-results"); // this should be inside the first loop
-{#                <var table = document.getElementById("article-details"); // this should be inside the first loop-->#}
-                // Print Table Header
-//                var tableHead = document.createElement('thead')
-//                var tr = document.createElement('TR');
-//                var th = document.createElement('TH');
-//                th.appendChild(document.createTextNode("Top 3 articles"));
-//                tr.appendChild(th)
-//                tableHead.appendChild(tr);
-//                table.appendChild(tableHead);
-
-                // list Symptom (ICD) codes in table first
-                var tableBody = document.createElement('tbody')
-
-                for (var key in response["results"]["collection1"]) {
-                    var title = response["results"]["collection1"][key]["Title"]["text"];
-                    var url = response["results"]["collection1"][key]["Title"]["href"];
-                    var pmid = response["results"]["collection1"][key]["PMID"];
-
-                    <!--getAbstract(pmid);-->
-                    var p = document.createElement('P');
-                    var a = document.createElement('A');
-
-                    p.className = "result";
-                    p.appendChild(document.createTextNode(title));
-                    a.appendChild(document.createTextNode(url));
-
-                    var br = document.createElement("br");
-
-                    a.href = url;
-                    a.target = '_blank';
-
-                    tableBody.appendChild(p);
-
-                    tableBody.appendChild(a);
-
-                }
-                oldBody = table.getElementsByTagName("tbody")[0];
-                table.replaceChild(tableBody, oldBody);
-                //alert(JSON.stringify(results["symptoms"]["t66934"]));
-            },
-            error: function (xhr, status) {
-
-                //handle errors
-            }
-        });
-    }
-</script>
-
 
 <body class="mdl-demo mdl-color--red-A100 mdl-color-text--grey-600 mdl-base">
 <div class="mdl-layout__container has-scrolling-header">
-    <!--<div><img src=https://photos-3.dropbox.com/t/2/AAAGFhm0I_BKQADzWo-jFrB4zDfmajuEBJoJmfpkCopcWw/12/285457126/png/32x32/3/1448395200/0/2/low-poly-texture-14.png/EOaC-JICGIQBIAIoAg/td5-MbCvCsE5ZSauJAfoRpaXx-Wpn04Xbr-c2jzDPGQ?size_mode=3&size=1024x768-->
-              <!--id="bgpic" alt=""></div>-->
     <div class="demo-layout mdl-layout mdl-js-layout is-upgraded">
         <header class="android-header mdl-layout__header mdl-layout__header--waterfall">
             <div class=" mdl-layout__header-row">
@@ -231,8 +202,6 @@
 
                 <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone mdl-card mdl-shadow--3dp">
                     <div class="mdl-card__supporting-text">
-
-                        <!--<table id="article-details"-->
                         <table id="search-results">
                             <thead>
                                 <h5>Medline Pubmed Articles</h5>
