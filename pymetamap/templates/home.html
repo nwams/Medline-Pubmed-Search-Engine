@@ -51,9 +51,9 @@
                     var td = document.createElement('TD')
                     td.className = "icd-code"
                      td.onclick = function() {
-                        <!--getArticles(attrValue.split(' ').join('+'));-->
-                        getAbstract(8893567);
-                        getAbstract(26637172);
+                        getArticles(attrValue.split(' ').join('+'));
+                        <!--getAbstract(8893567);-->
+                        <!--getAbstract(26637172);-->
                     };
                     td.appendChild(document.createTextNode(attrName + attrValue))
                     tr.appendChild(td)
@@ -147,24 +147,26 @@
                 var tableBody = document.createElement('tbody')
 
                 for (var key in response["results"]["collection1"]) {
-                    var tr = document.createElement('TR');
-                    var p = document.createElement('P');
+                    <!--var tr = document.createElement('TR');-->
+                    <!--var p = document.createElement('P');-->
                     var a = document.createElement('A');
                     var title = response["results"]["collection1"][key]["Title"]["text"];
                     var url = response["results"]["collection1"][key]["Title"]["href"];
                     var pmid = response["results"]["collection1"][key]["PMID"];
-                    getAbstract(pmid);
+                    <!--getAbstract(pmid);-->
                     var h4 = document.createElement('H4')
                     h4.className = "result"
-                    p.className = "link"
-                    p.appendChild(document.createTextNode(url));
+                    <!--p.className = "link"-->
+                    <!--p.appendChild(document.createTextNode(url));-->
                     a.href = url;
                     a.appendChild(document.createTextNode("VIEW DETAILS"))
                     h4.appendChild(document.createTextNode(title))
-                    p.appendChild(a)
-                    h4.appendChild(p)
-                    tr.appendChild(h4)
-                    tableBody.appendChild(tr)
+                    <!--p.appendChild(a)-->
+                    <!--h4.appendChild(p)-->
+                    <!--tr.appendChild(h4)-->
+                    <!--tr.appendChild(a)-->
+                    tableBody.appendChild(h4)
+                    tableBody.appendChild(a)
                 }
                 oldBody = table.getElementsByTagName("tbody")[0];
                 table.replaceChild(tableBody, oldBody);
@@ -229,10 +231,8 @@
                 <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone mdl-card mdl-shadow--3dp">
                     <div class="mdl-card__supporting-text">
 
-                        <!--<table id="search-results"-->
-                        <table id="article-details"
-
-
+                        <!--<table id="article-details"-->
+                        <table id="search-results"
                                class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
                                 Medline Pubmed Articles
