@@ -51,8 +51,9 @@
                     var td = document.createElement('TD')
                     td.className = "icd-code"
                      td.onclick = function() {
-                        getArticles(attrValue.split(' ').join('+'));
-                        <!--getAbstract(8893567);-->
+                        <!--getArticles(attrValue.split(' ').join('+'));-->
+                        getAbstract(8893567);
+                        getAbstract(26637172);
                     };
                     td.appendChild(document.createTextNode(attrName + attrValue))
                     tr.appendChild(td)
@@ -84,7 +85,8 @@
 <script>
   function getAbstract(pmid) {
         $.ajax({
-          url:"https://www.kimonolabs.com/api/3qouqv32?apikey=OMGNB44gfcH3XD7u1zHUwEjB8nz3mlqP&kimpath1=pubmed&kimpath2=" + pmid,
+
+          url:"http://www.kimonolabs.com/api/ondemand/3qouqv32?apikey=OMGNB44gfcH3XD7u1zHUwEjB8nz3mlqP&kimpath1=pubmed&kimpath2=" + pmid,
           crossDomain: true,
           dataType: "jsonp",
           success: function (response) {
@@ -94,24 +96,30 @@
             var tableBody = document.createElement('tbody')
 
             for (var key in response["results"]["collection1"]) {
-                var h4 = document.createElement('H4');
+                var h3 = document.createElement('H3');
                 var p = document.createElement('P');
-                var title = response["results"]["collection1"]["title"];
-                var abstract = response["results"]["collection1"]["abstracttext"];
-                var url = response["results"]["collection1"]["url"];
+                var a = document.createElement('A');
+                var title = response["results"]["collection1"][key]["title"];
+                var abstract = response["results"]["collection1"][key]["abstract"];
+                var url = response["url"];
+                a.href = url;
                 p.appendChild(document.createTextNode(abstract));
                 p.className = "abstract"
-                h4.appendChild(document.createTextNode(title));
-                h4.className = "title"
-                h4.href = url;
-                p.appendChild(h4);
+                a.appendChild(document.createTextNode(title));
+                a.className = "title"
+
+                h3.appendChild(a);
+                tableBody.appendChild(a);
                 tableBody.appendChild(p);
             }
-            oldBody = table.getElementsByTagName("tbody")[0];
-            table.replaceChild(tableBody, oldBody);
+            <!--oldBody = table.getElementsByTagName("tbody")[0];-->
+            <!--table.replaceChild(tableBody, oldBody);-->
+            table.appendChild(tableBody);
           },
           error: function (xhr, status) {
             //handle errors
+                     console.log(xhr);
+            console.log(status);
           }
         });
   }
@@ -125,7 +133,7 @@
             success: function (response) {
                 // Get the table by its id
                 var table = document.getElementById("search-results"); // this should be inside the first loop
-
+                <!--var table = document.getElementById("article-details"); // this should be inside the first loop-->
                 // Print Table Header
 //                var tableHead = document.createElement('thead')
 //                var tr = document.createElement('TR');
@@ -144,6 +152,8 @@
                     var a = document.createElement('A');
                     var title = response["results"]["collection1"][key]["Title"]["text"];
                     var url = response["results"]["collection1"][key]["Title"]["href"];
+                    var pmid = response["results"]["collection1"][key]["PMID"];
+                    getAbstract(pmid);
                     var h4 = document.createElement('H4')
                     h4.className = "result"
                     p.className = "link"
@@ -161,6 +171,7 @@
                 //alert(JSON.stringify(results["symptoms"]["t66934"]));
             },
             error: function (xhr, status) {
+
                 //handle errors
             }
         });
@@ -204,7 +215,7 @@
 
                         <!-- add first table here -->
                         <table id="procedures_symptoms"
-                               class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                               class=" mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
                                 Select a code below to see related articles
                             </thead>
@@ -218,10 +229,13 @@
                 <div class="mdl-cell mdl-cell--6-col mdl-cell--6-col-tablet mdl-cell--6-col-phone mdl-card mdl-shadow--3dp">
                     <div class="mdl-card__supporting-text">
 
-                        <table id="search-results"
+                        <!--<table id="search-results"-->
+                        <table id="article-details"
+
+
                                class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                             <thead>
-                                Top 3 articles
+                                Medline Pubmed Articles
                             </thead>
                             <tbody>
                             </tbody>
